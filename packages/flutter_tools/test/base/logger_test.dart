@@ -24,9 +24,9 @@ void main() {
       verboseLogger.printError('Helpless!');
 
       expect(mockLogger.statusText, matches(r'^\[ (?: {0,2}\+[0-9]{1,3} ms|       )\] Hey Hey Hey Hey\n'
-                                            r'\[ (?: {0,2}\+[0-9]{1,3} ms|       )\] Oooh, I do I do I do\n$'));
+                                             r'\[ (?: {0,2}\+[0-9]{1,3} ms|       )\] Oooh, I do I do I do\n$'));
       expect(mockLogger.traceText, '');
-      expect(mockLogger.errorText, matches(r'^\[ (?: {0,2}\+[0-9]{1,3} ms|       )\] Helpless!\n$'));
+      expect(mockLogger.errorText, matches( r'^\[ (?: {0,2}\+[0-9]{1,3} ms|       )\] Helpless!\n$'));
     });
   });
 
@@ -139,12 +139,12 @@ void main() {
     testUsingContext('sequential startProgress calls with VerboseLogger and StdoutLogger', () async {
       context[Logger].startProgress('AAA')..stop();
       context[Logger].startProgress('BBB')..stop();
-      expect(outputLines(), <String>[
-        '[        ] AAA',
-        '[        ] AAA (completed)',
-        '[        ] BBB',
-        '[        ] BBB (completed)',
-        ''
+      expect(outputLines(), <Matcher>[
+        matches(r'^\[ (?: {0,2}\+[0-9]{1,3} ms|       )\] AAA$'),
+        matches(r'^\[ (?: {0,2}\+[0-9]{1,3} ms|       )\] AAA \(completed\)$'),
+        matches(r'^\[ (?: {0,2}\+[0-9]{1,3} ms|       )\] BBB$'),
+        matches(r'^\[ (?: {0,2}\+[0-9]{1,3} ms|       )\] BBB \(completed\)$'),
+        matches(r'^$'),
       ]);
     }, overrides: <Type, Generator>{
       Stdio: () => mockStdio,
